@@ -1,8 +1,11 @@
 const personas = [];
 
-function agregar({ nombre, rut, fechaNacimiento, ciudad }) {
-  if (!nombre || !rut || !fechaNacimiento || !ciudad) {
+function agregar({ nombre, rut, fechaNacimiento, ciudad, gustos }) {
+  if (!nombre || !rut || !fechaNacimiento || !ciudad || !gustos) {
     throw new Error("Todos los campos son obligatorios");
+  }
+  if (!Array.isArray(gustos)) {
+    throw new Error("gustos debe ser un arreglo");
   }
   if (personas.find((p) => p.rut === rut)) {
     throw new Error("El RUT ya existe");
@@ -13,6 +16,7 @@ function agregar({ nombre, rut, fechaNacimiento, ciudad }) {
     rut,
     fechaNacimiento,
     ciudad,
+    gustos,
   };
   personas.push(persona);
   return persona;
