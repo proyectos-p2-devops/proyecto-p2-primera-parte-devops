@@ -13,16 +13,28 @@ describe("POST /personas", () => {
       rut: "12.345.678-9",
       fechaNacimiento: "1990-05-15",
       ciudad: "Santiago",
+      gustos: ["comida italiana", "juegos de mesa", "libros ciencia ficción"],
     });
     expect(res.status).toBe(201);
     expect(res.body).toMatchObject({
       nombre: "Juan Perez",
       rut: "12.345.678-9",
+      gustos: ["comida italiana", "juegos de mesa", "libros ciencia ficción"],
     });
   });
 
   test("rechaza si faltan campos", async () => {
     const res = await request(app).post("/personas").send({ nombre: "Juan" });
+    expect(res.status).toBe(400);
+  });
+
+  test("rechaza si falta gustos", async () => {
+    const res = await request(app).post("/personas").send({
+      nombre: "Juan",
+      rut: "1-9",
+      fechaNacimiento: "2000-01-01",
+      ciudad: "X",
+    });
     expect(res.status).toBe(400);
   });
 
@@ -32,12 +44,14 @@ describe("POST /personas", () => {
       rut: "1-9",
       fechaNacimiento: "2000-01-01",
       ciudad: "A",
+      gustos: ["a"],
     });
     const res = await request(app).post("/personas").send({
       nombre: "Ana",
       rut: "1-9",
       fechaNacimiento: "2000-01-01",
       ciudad: "B",
+      gustos: ["b"],
     });
     expect(res.status).toBe(400);
     expect(res.body.error).toContain("RUT");
