@@ -71,12 +71,14 @@ describe("GET /personas", () => {
       rut: "1",
       fechaNacimiento: "2000-01-01",
       ciudad: "X",
+      gustos: ["a"],
     });
     await request(app).post("/personas").send({
       nombre: "B",
       rut: "2",
       fechaNacimiento: "2000-01-02",
       ciudad: "Y",
+      gustos: ["b"],
     });
     const res = await request(app).get("/personas");
     expect(res.status).toBe(200);
@@ -91,6 +93,7 @@ describe("DELETE /personas/:rut", () => {
       rut: "1-9",
       fechaNacimiento: "2000-01-01",
       ciudad: "Z",
+      gustos: ["x"],
     });
     const res = await request(app).delete("/personas/1-9");
     expect(res.status).toBe(200);
@@ -110,12 +113,14 @@ describe("POST → GET → DELETE → GET", () => {
       rut: "1",
       fechaNacimiento: "1990-01-01",
       ciudad: "Santiago",
+      gustos: ["a"],
     });
     await request(app).post("/personas").send({
       nombre: "Luis",
       rut: "2",
       fechaNacimiento: "1995-05-05",
       ciudad: "Valparaíso",
+      gustos: ["b"],
     });
 
     let res = await request(app).get("/personas");
